@@ -1,16 +1,15 @@
 ﻿using ExampleAPI.Core;
 
 namespace ExampleAPI.Entities;
+
 public class Order : Entity<Guid>
 {
-	public Guid ProductId { get; set; }
-	public required string Name { get; set; }
-	public required int Quantity { get; set; }
-
-	public virtual ICollection<Stock> Stocks { get; set; }
-
+	public Guid UserId { get; set; }
+	public DateTime CreatedDate { get; set; }
+	public virtual User User {get;set;}
+	public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 	public Order()
 	{
-		Stocks = new HashSet<Stock>();
+		OrderDetails = new HashSet<OrderDetail>();
 	}
 }

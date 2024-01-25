@@ -44,19 +44,35 @@ namespace ExampleAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("ExampleAPI.Entities.OrderDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductTransactionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("ExampleAPI.Entities.Product", b =>
@@ -86,17 +102,10 @@ namespace ExampleAPI.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("ExampleAPI.Entities.Stock", b =>
+            modelBuilder.Entity("ExampleAPI.Entities.ProductTransaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProductId")
@@ -107,9 +116,7 @@ namespace ExampleAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("Stocks");
+                    b.ToTable("ProductTransactions");
                 });
 
             modelBuilder.Entity("ExampleAPI.Entities.User", b =>
@@ -156,25 +163,9 @@ namespace ExampleAPI.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ExampleAPI.Entities.Stock", b =>
-                {
-                    b.HasOne("ExampleAPI.Entities.Order", "Order")
-                        .WithMany("Stocks")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("ExampleAPI.Entities.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("ExampleAPI.Entities.Order", b =>
-                {
-                    b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618
         }

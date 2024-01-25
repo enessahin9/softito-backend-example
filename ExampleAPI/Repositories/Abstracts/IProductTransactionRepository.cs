@@ -4,7 +4,7 @@ using ExampleAPI.Entities;
 
 namespace ExampleAPI.Repositories.Abstracts;
 
-public interface IOrderRepository: IBaseRepository<Order>
+public interface IProductTransactionRepository : IBaseRepository<ProductTransaction> 
 {
 }
 
