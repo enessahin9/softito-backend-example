@@ -4,6 +4,7 @@ using ExampleAPI.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExampleAPI.Migrations
 {
     [DbContext(typeof(ExampleDbContext))]
-    partial class ExampleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240125124818_InitialAccountTransaction")]
+    partial class InitialAccountTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,64 +34,17 @@ namespace ExampleAPI.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("CardId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CardId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AccountTransactions");
-                });
-
-            modelBuilder.Entity("ExampleAPI.Entities.Card", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CardTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("CardUID")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("Limit")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CardTypeId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("Cards");
-                });
-
-            modelBuilder.Entity("ExampleAPI.Entities.CardType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CardTypes");
+                    b.ToTable("AccountTransactions");
                 });
 
             modelBuilder.Entity("ExampleAPI.Entities.Category", b =>
@@ -233,34 +189,11 @@ namespace ExampleAPI.Migrations
 
             modelBuilder.Entity("ExampleAPI.Entities.AccountTransaction", b =>
                 {
-                    b.HasOne("ExampleAPI.Entities.Card", "Card")
-                        .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ExampleAPI.Entities.User", null)
-                        .WithMany("AccountTransactions")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Card");
-                });
-
-            modelBuilder.Entity("ExampleAPI.Entities.Card", b =>
-                {
-                    b.HasOne("ExampleAPI.Entities.CardType", "CardType")
-                        .WithMany()
-                        .HasForeignKey("CardTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ExampleAPI.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("AccountTransactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CardType");
 
                     b.Navigation("User");
                 });
