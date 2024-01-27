@@ -2,8 +2,10 @@
 using ExampleAPI.Contexts;
 using ExampleAPI.Repositories.Abstracts;
 using ExampleAPI.Repositories.Concretes;
+using PublicKPS;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddDbContext<ExampleDbContext>();
@@ -20,13 +22,16 @@ builder.Services.AddScoped<IProductTransactionRepository, ProductTransactionRepo
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 builder.Services.AddScoped<IAccountTransactionRepository, AccountTransactionRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<ICardTypeRepository, CardTypeRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

@@ -4,6 +4,7 @@ using ExampleAPI.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExampleAPI.Migrations
 {
     [DbContext(typeof(ExampleDbContext))]
-    partial class ExampleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240126231210_KimlikDogrulama")]
+    partial class KimlikDogrulama
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,7 +250,7 @@ namespace ExampleAPI.Migrations
             modelBuilder.Entity("ExampleAPI.Entities.Card", b =>
                 {
                     b.HasOne("ExampleAPI.Entities.CardType", "CardType")
-                        .WithMany()
+                        .WithMany("Cards")
                         .HasForeignKey("CardTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -321,6 +324,11 @@ namespace ExampleAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ExampleAPI.Entities.CardType", b =>
+                {
+                    b.Navigation("Cards");
                 });
 
             modelBuilder.Entity("ExampleAPI.Entities.Category", b =>
