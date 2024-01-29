@@ -11,8 +11,8 @@ public class User : Entity<Guid>
 	[MaxLength(150)]
 	public required string LastName { get; set; }
 	public short BirthYear { get; set; }
-	
-	public required long IdentificationNumber { get; set; }
+	[MaxLength(20)]
+	public required string IdentificationNumber { get; set; }
 	[MaxLength(10)]
 	public string? CarPlate { get; set; }
 	public virtual ICollection<Order> Orders { get; set; }

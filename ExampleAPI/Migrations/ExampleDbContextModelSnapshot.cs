@@ -216,8 +216,10 @@ namespace ExampleAPI.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<long>("IdentificationNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("IdentificationNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
